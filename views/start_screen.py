@@ -1,6 +1,8 @@
 import tkinter as tk
 
+from controllers import calculations
 from models.ScreenSizes import ScreenSizes
+from models.Vertice import Vertice
 
 
 class StartScreen:
@@ -17,7 +19,7 @@ class StartScreen:
         else:  # иначе соединяем текущую точку с предыдущей
             self.canvas.create_line(self.start_x, self.start_y, event.x, event.y)
             self.start_x, self.start_y = event.x, event.y
-        self.vertices.append((event.x, event.y))  # сохраняем текущую точку
+        self.vertices.append(Vertice(x=event.x, y=event.y))  # сохраняем текущую точку
 
     def on_select(self, v):
         """Запись движения ползунка"""
@@ -32,6 +34,7 @@ class StartScreen:
                 self.vertices[0][0],
                 self.vertices[0][1],
             )
+        calculations.run(self.vertices, self.repetitions, self.screen_sizes)
 
     def launch(self):
         """Отрисовка экрана"""

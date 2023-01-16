@@ -1,3 +1,5 @@
+import threading
+import time
 import tkinter as tk
 
 from controllers import calculations
@@ -7,7 +9,7 @@ from models.Vertice import Vertice
 
 class StartScreen:
     vertices = []
-    start_x, start_y, canvas, root = None, None, None, None
+    start_x, start_y, canvas, root, repetitions = None, None, None, None, 1
 
     def __init__(self, screen_sizes: ScreenSizes):
         self.screen_sizes = screen_sizes
@@ -29,16 +31,22 @@ class StartScreen:
         """Запуск расчета"""
         if len(self.vertices) > 2:  # дорисовываем фигуру
             self.canvas.create_line(
-                self.vertices[-1][0],
-                self.vertices[-1][1],
-                self.vertices[0][0],
-                self.vertices[0][1],
+                self.vertices[-1].x,
+                self.vertices[-1].y,
+                self.vertices[0].x,
+                self.vertices[0].y,
             )
-        calculations.run(self.vertices, self.repetitions, self.screen_sizes)
+            self.vertices.append(
+                Vertice(x=self.vertices[0].x, y=self.vertices[0].y)
+            )  # сохраняем текущую точку
+        self.root.update()
+        calculations.run(self.vertices, self.repetitions, self.screen_sizes, self.root)
 
     def launch(self):
         """Отрисовка экрана"""
         self.root = tk.Tk()
+        self.root.title("Rusile | Math-lab-1")
+        self.root.config(cursor="pencil")
         self.root.geometry(
             f"{self.screen_sizes.screen_size_width}x{self.screen_sizes.screen_size_height}"
         )

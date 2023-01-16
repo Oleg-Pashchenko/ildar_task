@@ -4,11 +4,11 @@ import sys
 from models.Vertice import Vertice
 
 
-class Square:
+class Rect:
     bounds = None
 
     @dataclasses.dataclass
-    class SquareBounds:
+    class RectBounds:
         left_x: int
         left_y: int
         right_x: int
@@ -17,13 +17,13 @@ class Square:
     def __init__(self, vertices: list[Vertice]):
         self.__calculate_bounds(vertices)
 
-    def get_bounds(self) -> SquareBounds:
+    def get_bounds(self) -> RectBounds:
         """:return self.bounds"""
         return self.bounds
 
     def __calculate_bounds(self, vertices: list[Vertice]):
         """Расчет :param self.bounds исходя из vertices"""
-        self.bounds = self.SquareBounds(
+        self.bounds = self.RectBounds(
             sys.maxsize, sys.maxsize, -sys.maxsize - 1, -sys.maxsize - 1
         )
         for vertice in vertices:

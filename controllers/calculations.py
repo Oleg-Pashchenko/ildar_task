@@ -1,6 +1,8 @@
 import time
 import tkinter
 
+from controllers import function_parse
+from controllers.integrals import calculate_integral
 from models.Rect import Rect
 from models.ScreenSizes import ScreenSizes
 from models.Vertice import Vertice
@@ -11,7 +13,7 @@ from controllers.integral_sum import integral_sum
 from views.result_screen import *
 
 
-def get_path_from_dots(dots: list[Vertice], screen_width: int):
+def get_path_from_dots(dots, screen_width):
     d = []
     for i in range(len(dots)):
         dots[i].y = screen_width - dots[i].y
@@ -19,17 +21,30 @@ def get_path_from_dots(dots: list[Vertice], screen_width: int):
     return path.Path(d), dots
 
 
+def get_vertices(vertices):
+    v = []
+    for i in vertices:
+        v.append((i.x, i.y))
+    return v
+
+
 def run(
-    vertices: list[Vertice],
-    repetitions: int,
-    screen_sizes: ScreenSizes,
-    root: tkinter.Tk,
+        vertices,
+        repetitions,
+        screen_sizes,
+        root,
 ):
     try:
         area, vertices_c = get_path_from_dots(vertices, screen_sizes.screen_size_width)
         f = get_func()
         rect = Rect(vertices)
-        integral_sum(rect, area, repetitions, f)
+
+        new_v = get_vertices(vertices)
+        new_f = function_parse.parse_function("")
+        res, err = calculate_integral(new_f, new_v, repetitions)
+
+        integral_sum(rect, area, repetitions, f, str(res), str(err))
+
         plot(rect, area, screen_sizes)
     except Exception as e:
         print(e)

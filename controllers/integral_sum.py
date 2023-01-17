@@ -7,7 +7,7 @@ def is_dot_inside(area, dot):
     return area.contains_point(dot)
 
 
-def integral_sum(rect: Rect, area, n, f):
+def integral_sum(rect: Rect, area, n, f, t1, t2):
     n = int(n)
     bounds = rect.get_bounds()
     width, height = bounds.right_x - bounds.left_x, bounds.right_y - bounds.left_y
@@ -31,9 +31,6 @@ def integral_sum(rect: Rect, area, n, f):
             else:
                 add_dot_to_plot(x_offset, y_offset)
 
-    integral_s = computed_res * area_sq
-    dispersion = get_dispersion(area_sq, x_space * 2)
-
     # if integral_s == 0:
     #    error_screen.show()
-    add_legend(integral_s, dispersion)
+    add_legend(t1, t2)

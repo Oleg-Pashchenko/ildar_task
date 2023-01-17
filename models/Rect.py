@@ -1,8 +1,6 @@
 import dataclasses
 import sys
 
-from models.Vertice import Vertice
-
 
 class Rect:
     bounds = None
@@ -14,14 +12,14 @@ class Rect:
         right_x: int
         right_y: int
 
-    def __init__(self, vertices: list[Vertice]):
+    def __init__(self, vertices):
         self.__calculate_bounds(vertices)
 
     def get_bounds(self) -> RectBounds:
         """:return self.bounds"""
         return self.bounds
 
-    def __calculate_bounds(self, vertices: list[Vertice]):
+    def __calculate_bounds(self, vertices):
         """Расчет :param self.bounds исходя из vertices"""
         self.bounds = self.RectBounds(
             sys.maxsize, sys.maxsize, -sys.maxsize - 1, -sys.maxsize - 1
